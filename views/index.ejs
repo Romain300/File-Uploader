@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/styles.css" rel="stylesheet">
+    <title>index</title>
+</head>
+<body>
+
+    <% if (locals.user) { %>
+        <div>Hello, <%= user.name %></div>
+        <a href="/logOut">Log Out</a>
+        <a href="/uploadFile">Upload File</a>
+        <a href="/createFolder">Create Folder</a>
+
+        <% folders.forEach((folder => { %>
+            <div><%= folder.name %></div>
+            <a href="/folder/<%= folder.name %>"><button type="button">Details</button></a>
+        <% })) %>
+
+
+    <% } else { %>
+        <form method="post" action="/logIn">
+            <div>
+                <label for="email">Email:</label>
+                <input id="email" name="email" type="email">
+            </div>
+            <div>
+                <label for="password">Password:</label>
+                <input id="password" name="password" type="password">
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+    
+        <%- include("partials/errors") %>
+    
+        <form method="post" action="/signIn">
+            <div>
+                <label for="name">Name:</label>
+                <input id="name" name="name" type="text">
+            </div>
+            <div>
+                <label for="email">Email:</label>
+                <input id="email" name="email" type="email">
+            </div>
+            <div>
+                <label for="password">Password:</label>
+                <input id="password" name="password" type="password">
+            </div>
+            <div>
+                <label for="cpassword">Confirm password:</label>
+                <input id="cpassword" name="cpassword" type="password">
+            </div>
+    
+            <button type="submit">Submit</button>
+        </form>
+
+    <% } %>
+    
+</body>
+</html>
