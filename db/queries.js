@@ -190,7 +190,35 @@ async function uploadFile(file, fileName, folderId, authorId) {
     }catch(error) {
         throw error;
     }
+
+    //don t forget to store ressource-type for future deletion 
 };
+
+async function deleteFile(fileId) {
+    try {
+        const file = await prisma.file.findUnique({
+            where: {
+                id: fileId
+            }
+        });
+
+        const result = await cloudinary.uploader.destroy(file.public_id, { resource_type: "raw" });
+        if (result.result !== "ok" && result.result ==="not found") {
+            throw new Error("Failed to delete file from cloudinary: " + result.result);
+        }
+
+        await prisma.file.delete({
+            where: {
+                id: fileId
+            }
+        });
+
+    } catch(error) {
+        throw error;
+    }
+};
+
+
 
 module.exports = {
     createUser,
@@ -202,5 +230,6 @@ module.exports = {
     deleteFolder,
     checkFolderName,
     updateFolderName,
-    uploadFile
+    uploadFile,
+    deleteFile
 };

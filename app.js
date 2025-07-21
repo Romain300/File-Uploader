@@ -12,6 +12,7 @@ const uploadFileRouter = require("./routes/uploadFileRouter");
 const createFolderRoute = require("./routes/createFolderRoute");
 const folderUserRoute = require("./routes/folderUserRoute");
 const deleteFolderRouter = require("./routes/deleteFolderRoute")
+const deleteFileRouter = require("./routes/deleteFileRoute");
 const { getUserByEmail, getUserById } = require("./db/queries");
 const cloudinary  = require("cloudinary").v2;
 require("dotenv").config();
@@ -59,6 +60,7 @@ app.use("/uploadFile", uploadFileRouter);
 app.use("/createFolder", createFolderRoute);
 app.use("/folder", folderUserRoute);
 app.use("/deleteFolder", deleteFolderRouter);
+app.use("/deleteFile", deleteFileRouter);
 
 passport.use(
     new LocalStrategy(

@@ -1,0 +1,16 @@
+<nav>
+    <div class="name-app">CloudVault</div>
+    <div class="navigation">
+        <% if (locals.user) { %>
+            <a href="/logOut"><button class="nav-button">Log Out</button></a>
+            <a href="/uploadFile"><button class="nav-button">Upload File</button></a>
+            <a href="/createFolder"><button class="nav-button">Create Folder</button></a>
+        <% } else { %>
+            <a href="/"><button class="nav-button">Log In</button></a>
+            <a href="/signIn"><button class="nav-button">Create Account</button></a>
+        <% } %>
+    </div>
+</nav>
+
+
+   

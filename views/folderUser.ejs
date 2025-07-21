@@ -3,28 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link href="/styles.css" rel="stylesheet">
     <title><%= folder.name %></title>
 </head>
 <body>
-    <div>
+    <header>
+        <%- include("partials/navbar") %>
+    </header>
+
+    <main>
+        <section class="introduction">
+            <h1 class="intro-heading">Folder: <%= folder.name %></h1>
+            <div class="secondary-text">Here are the files stored in "<%= folder.name %>". Upload, download, or manage them as needed.</div>
+        </section>
+
+        <section class="folders-section">
+            <h4 class="section-title">Files</h4>
+
+            <table>
+                <thead>
+                    <th scope="col">Name</th>
+                    <th scope="col">Date of upload</th>
+                    <th scrope="col">Options</th>
+                </thead>
+                
+                <tbody>
+                     <% folder.files.forEach((file) => { %>
+                        <td><%= file.name %></td>
+                        <td><%= file.uploadAt.toDateString() %></td>
+                        <td>
+                            <div>
+                                <a href="<%= file.url %>"><img class="option-image" src="/images/download.png" alt="download"></a>
+                                <a><img class="option-image" src="/images/pen.png" alt="rename"></a>
+                                <a href="/deleteFile/<%= file.id %>"><img class="option-image" src="/images/delete.png" alt="delete"></a>
+                                <div><%= file.public_id %></div>
+                            </div>
+                        </td>
+                    <% }) %>
+                </tbody>
+            </table>
+
+        </section>
+
         <div>
-            Folder name: <%= folder.name %>
-            Author name: <%= folder.author.name %>
-            <% folder.files.forEach((file) => { %>
-                <%= file.name %>
-            <% }) %>
-            <a href="/deleteFolder/<%= folder.id %>"><button type="button">Delete Folder</button></a>
-        </div>
-    </div>
-    <%- include("partials/errors") %>
-    <form method="post" action="/folder/<%= folder.name %>">
-        <div>
-            <label for="name">Folder Name</label>
-            <input type="text" name="name" id="name" value="<%= folder.name %>">
-            <input type="hidden" name="folderId" id="folderId" value="<%= folder.id %>">
-        </div>
-        <button type="submit">Submit</button>
-    </form>
+                <div>
+                    Folder name: <%= folder.name %>
+                    Author name: <%= folder.author.name %>
+                   
+                    <a href="/deleteFolder/<%= folder.id %>"><button type="button">Delete Folder</button></a>
+                </div>
+            </div>
+            <%- include("partials/errors") %>
+            <form method="post" action="/folder/<%= folder.name %>">
+                <div>
+                    <label for="name">Folder Name</label>
+                    <input type="text" name="name" id="name" value="<%= folder.name %>">
+                    <input type="hidden" name="folderId" id="folderId" value="<%= folder.id %>">
+                </div>
+                <button type="submit">Submit</button>
+            </form>
+
+    </main>
+
+    
+
+    
     
 </body>
 </html>

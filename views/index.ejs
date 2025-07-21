@@ -7,56 +7,73 @@
     <title>index</title>
 </head>
 <body>
+    <header>
+        <%- include("partials/navbar") %>
+    </header>
 
-    <% if (locals.user) { %>
-        <div>Hello, <%= user.name %></div>
-        <a href="/logOut">Log Out</a>
-        <a href="/uploadFile">Upload File</a>
-        <a href="/createFolder">Create Folder</a>
+    <main>
 
-        <% folders.forEach((folder => { %>
-            <div><%= folder.name %></div>
-            <a href="/folder/<%= folder.name %>"><button type="button">Details</button></a>
-        <% })) %>
+        <% if (!locals.user) { %>
+            <section class="introduction">
+                <h1 class="intro-heading">Welcome to CloudVault</h1>
+                <div class="secondary-text">Effortless, secure, and organized file storage for all your needs.</div>
+            </section>
 
+            <section class="image-login-form">
+                <img class="presentation-image" src="/images/undraw_cloud-docs_6cpw.svg" alt="presentation image">
+                <div class="form-card">
+                    <h2>Log In</h2>
 
-    <% } else { %>
-        <form method="post" action="/logIn">
-            <div>
-                <label for="email">Email:</label>
-                <input id="email" name="email" type="email">
-            </div>
-            <div>
-                <label for="password">Password:</label>
-                <input id="password" name="password" type="password">
-            </div>
-            <button type="submit">Submit</button>
-        </form>
-    
-        <%- include("partials/errors") %>
-    
-        <form method="post" action="/signIn">
-            <div>
-                <label for="name">Name:</label>
-                <input id="name" name="name" type="text">
-            </div>
-            <div>
-                <label for="email">Email:</label>
-                <input id="email" name="email" type="email">
-            </div>
-            <div>
-                <label for="password">Password:</label>
-                <input id="password" name="password" type="password">
-            </div>
-            <div>
-                <label for="cpassword">Confirm password:</label>
-                <input id="cpassword" name="cpassword" type="password">
-            </div>
-    
-            <button type="submit">Submit</button>
-        </form>
+                    <%- include("partials/errors") %>
 
-    <% } %>
+                    <form method="post" action="/logIn">
+                        <div class="input-form">
+                            <label for="email">Email:</label>
+                            <input id="email" name="email" type="email">
+                        </div>
+                        <div class="input-form">
+                            <label for="password">Password:</label>
+                            <input id="password" name="password" type="password">
+                        </div>
+                        <button type="submit">Submit</button>
+                    </form>
+
+                    <div class="info-form">
+                        <p class="secondary-text">Don't have an account?</p>
+                        <a href="/signIn">Create one</a>
+                    </div>
+                </div>
+            </section>
+
+        <% } else { %>
+
+            <section class="introduction">
+                <h1 class="intro-heading">Welcome back to CloudVault, <%= locals.user.name %></h1>
+                <div class="secondary-text">Access your folders, manage your files, and stay organized all in one place.</div>
+            </section>
+
+            <section class="folders-section">
+                <h2 class="section-title">Your Folders</h2>
+
+                <div class="folders-grid">
+
+                    <% folders.forEach((folder => { %>
+                        <div class="folder-card">
+                            <h3 class="folder-name"><%= folder.name %></h3>
+                            <p class="secondary-text">5 files</p>
+                            <a href="/folder/<%= folder.name %>"><button type="button">Details</button></a>
+                        </div>
+                    <% })) %>
+
+                </div>
+            </section>
+
+        <% } %>
+
+        
+
+    </main>
     
 </body>
 </html>
+

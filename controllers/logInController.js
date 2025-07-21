@@ -5,7 +5,7 @@ const validateUser = [
     body("email")
         .trim()
         .notEmpty()
-        .withMessage("Emaail cannot be empty"),
+        .withMessage("Email cannot be empty"),
     body("password")
         .trim()
         .notEmpty()

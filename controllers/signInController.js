@@ -2,6 +2,10 @@ const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const db = require("../db/queries");
 
+function displaySignInPage(req, res) {
+    return res.render("signIn");
+};
+
 const validateUser = [
     body("name")
         .trim()
@@ -20,7 +24,7 @@ const validateUser = [
     body("cpassword")
         .trim()
         .notEmpty()
-        .withMessage("password cannot be empty")
+        .withMessage("confirm password cannot be empty")
         .custom((value, { req }) => {
             if (value !== req.body.password) {
                 throw new Error("Password and Confirm password must match");
@@ -37,7 +41,7 @@ const createUser = [
     async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(400).render("index", { errors: errors.array() });
+            return res.status(400).render("signIn", { errors: errors.array() });
         }
 
         try {
@@ -59,5 +63,6 @@ const createUser = [
 
 module.exports = {
     createUser,
+    displaySignInPage
 };
 
