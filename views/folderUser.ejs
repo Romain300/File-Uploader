@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <link href="/styles.css" rel="stylesheet">
+     <script src="/script.js" defer></script>
     <title><%= folder.name %></title>
 </head>
 <body>
@@ -17,51 +18,98 @@
             <div class="secondary-text">Here are the files stored in "<%= folder.name %>". Upload, download, or manage them as needed.</div>
         </section>
 
-        <section class="folders-section">
-            <h4 class="section-title">Files</h4>
+        <section class="folder-section">
 
-            <table>
-                <thead>
-                    <th scope="col">Name</th>
-                    <th scope="col">Date of upload</th>
-                    <th scrope="col">Options</th>
-                </thead>
-                
-                <tbody>
-                     <% folder.files.forEach((file) => { %>
-                        <td><%= file.name %></td>
-                        <td><%= file.uploadAt.toDateString() %></td>
-                        <td>
-                            <div>
-                                <a href="<%= file.url %>"><img class="option-image" src="/images/download.png" alt="download"></a>
-                                <a><img class="option-image" src="/images/pen.png" alt="rename"></a>
-                                <a href="/deleteFile/<%= file.id %>"><img class="option-image" src="/images/delete.png" alt="delete"></a>
-                                <div><%= file.public_id %></div>
-                            </div>
-                        </td>
-                    <% }) %>
-                </tbody>
-            </table>
+            <div>
+                <h4 class="section-title"><%= folder.files.length %> File(s)</h4>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Date of upload</th>
+                            <th scrope="col">Options</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                        <% folder.files.forEach((file) => { %>
+                            <tr>
+                                <td><%= file.name %></td>
+                                <td><%= file.uploadAt.toDateString() %></td>
+                                <td>
+                                    <div>
+                                        <a href="<%= file.url %>"><img class="option-image" src="/images/download.png" alt="download"></a>
+                                        <button data-file-id="<%= file.id %>" class="rename-button"><img class="option-image" src="/images/pen.png" alt="rename"></button>
+                                        <a href="/deleteFile/<%= file.id %>"><img class="option-image" src="/images/delete.png" alt="delete"></a>
+                                    </div>
+                                </td>
+
+                            </tr>
+                        
+
+                            <dialog id="dialog-rename" data-file-id="<%= file.id %>">
+
+                                <div class="form-card">
+                                <h2>Rename</h2>
+
+                                <%- include("partials/errors") %>
+
+                                <form method="post" action="/folder/<%= folder.name %>/<%= file.id %>">
+                                    <div class="input-form">
+                                        <label for="name">Name:</label>
+                                        <input id="name" name="name" type="text">
+                                    </div>
+                                    <div>
+                                        <button data-file-id="<%= file.id %>" class="cancel-button" type="button">Cancel</button>
+                                        <button type="submit">Submit</button>
+                                    </div>
+                                </form>
+
+                            </dialog>
+
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <div class="rename-delete-folder">
+
+                <div class="form-card">
+                    <h2>Rename Folder</h2>
+                    <%- include("partials/errors") %>
+                    <form method="post" action="/folder/<%= folder.name %>">
+                        <div>
+                            <label for="name">Folder Name</label>
+                            <input type="text" name="name" id="name" value="<%= folder.name %>">
+                            <input type="hidden" name="folderId" id="folderId" value="<%= folder.id %>">
+                        </div>
+                        <button type="submit">Submit</button>
+                    </form>
+                </div>
+
+                <div class="form-card">
+                    <h2>Delete Folder</h2>
+
+                    <a href="/deleteFolder/<%= folder.id %>"><button type="button">Delete Folder</button></a>
+                    
+
+
+                    <div class="info-form">
+                        <p class="secondary-text">By deleting this folder, all files contained within it will also be permanently deleted. 
+                            <br>This action cannot be undone. 
+                            <br>Please ensure you have saved any important data before proceeding.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
 
         </section>
 
-        <div>
-                <div>
-                    Folder name: <%= folder.name %>
-                    Author name: <%= folder.author.name %>
-                   
-                    <a href="/deleteFolder/<%= folder.id %>"><button type="button">Delete Folder</button></a>
-                </div>
-            </div>
-            <%- include("partials/errors") %>
-            <form method="post" action="/folder/<%= folder.name %>">
-                <div>
-                    <label for="name">Folder Name</label>
-                    <input type="text" name="name" id="name" value="<%= folder.name %>">
-                    <input type="hidden" name="folderId" id="folderId" value="<%= folder.id %>">
-                </div>
-                <button type="submit">Submit</button>
-            </form>
+     
+            
 
     </main>
 

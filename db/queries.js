@@ -66,7 +66,10 @@ async function findUserFolders(userId) {
         const folders = await prisma.folder.findMany({
             where: {
                 authorId: userId
-            }
+            },
+            include: {
+                files: true
+            },
         });
         return folders;
     }catch(error) {
@@ -86,23 +89,14 @@ async function folderDetails(folderName) {
                         name: true,
                     }
                 },
-                files: true,
+                files: {
+                    orderBy: {
+                        uploadAt: "asc"
+                    }
+                }
             }
         });
         return folder
-    }catch (error) {
-        throw error;
-    }
-};
-
-async function deleteFolder(folderId) {
-    try {
-        await prisma.folder.delete({
-            where: {
-                id: folderId,
-            }
-        });
-
     }catch (error) {
         throw error;
     }
@@ -183,7 +177,8 @@ async function uploadFile(file, fileName, folderId, authorId) {
                 url: url,
                 public_id: result.public_id, //for futur management
                 folderId: folderId,
-                authorId: authorId
+                authorId: authorId,
+                resourceType: result.resource_type //for deletion and management
             }
         });
 
@@ -191,7 +186,29 @@ async function uploadFile(file, fileName, folderId, authorId) {
         throw error;
     }
 
-    //don t forget to store ressource-type for future deletion 
+};
+
+async function deleteFolder(folderId) {
+    try {
+        const files = await prisma.file.findMany({
+            where: {
+                folderId: folderId
+            }
+        });
+
+        for (const file of files) {
+            await deleteFile(file.id);
+        }
+
+        await prisma.folder.delete({
+            where: {
+                id: folderId,
+            }
+        });
+
+    }catch (error) {
+        throw error;
+    }
 };
 
 async function deleteFile(fileId) {
@@ -218,6 +235,45 @@ async function deleteFile(fileId) {
     }
 };
 
+async function updateFileName(fileId, name) {
+    try {
+        await prisma.file.update({
+            where: {
+                id: fileId,
+            },
+            data: {
+                name: name,
+            }
+        });
+
+    }catch(error) {
+        throw error;
+    }
+};
+
+async function folderDetailsById(folderId) {
+    try {
+        const folder = await prisma.folder.findUnique({
+            where: {
+                id: folderId
+            },
+            include: {
+                author: {
+                    select: {
+                        name: true,
+                    }
+                },
+                files: true,
+            }
+        });
+        return folder
+    }catch (error) {
+        throw error;
+    }
+};
+
+
+
 
 
 module.exports = {
@@ -231,5 +287,7 @@ module.exports = {
     checkFolderName,
     updateFolderName,
     uploadFile,
-    deleteFile
+    deleteFile,
+    updateFileName,
+    folderDetailsById
 };

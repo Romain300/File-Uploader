@@ -20,7 +20,8 @@ const updateFolder = [
                 const folder = await db.folderDetails(currentName);
                 return res.status(400).render("folderUser", { 
                     errors: errors.array(), 
-                    folder: folder 
+                    folder: folder,
+                    user: req.user
                 });
             } catch(error) {
                 return res.status(500).send("something went wrong during update");
@@ -41,7 +42,7 @@ const updateFolder = [
                 }
             }
             await db.updateFolderName(folderId, name);
-            return res.status(200).redirect("/");
+            return res.status(200).redirect(`/folder/${name}`);
         }catch (error) {
             console.error(error);
             return res.status(500).send("something went wrong during update");

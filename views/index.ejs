@@ -60,7 +60,7 @@
                     <% folders.forEach((folder => { %>
                         <div class="folder-card">
                             <h3 class="folder-name"><%= folder.name %></h3>
-                            <p class="secondary-text">5 files</p>
+                            <p class="secondary-text"><%= folder.files.length %> files</p>
                             <a href="/folder/<%= folder.name %>"><button type="button">Details</button></a>
                         </div>
                     <% })) %>
