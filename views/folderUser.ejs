@@ -80,7 +80,7 @@
                     <h2>Rename Folder</h2>
                     <%- include("partials/errors") %>
                     <form method="post" action="/folder/<%= folder.name %>">
-                        <div>
+                        <div class="input-form">
                             <label for="name">Folder Name</label>
                             <input type="text" name="name" id="name" value="<%= folder.name %>">
                             <input type="hidden" name="folderId" id="folderId" value="<%= folder.id %>">

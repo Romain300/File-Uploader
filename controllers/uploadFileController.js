@@ -6,7 +6,8 @@ const { body, validationResult } = require("express-validator");
 async function displayUploadPage(req, res){
     const folders = await db.findUserFolders(req.user.id);
     return res.render("uploadFile", { 
-        folders: folders
+        folders: folders,
+        user: req.user
     });
 };
 
@@ -45,6 +46,7 @@ const uploadFile = [
             return res.render("uploadFile", { 
                 folders: folders,
                 errors: errors,
+                user: req.user
             });
         }
         const file = req.file;

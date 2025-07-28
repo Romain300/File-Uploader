@@ -3,29 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/styles.css" rel="stylesheet">
     <title>Upload File</title>
 </head>
 <body>
-    <%- include("partials/errors") %>
-    <form method="post" action="/uploadFile" enctype="multipart/form-data">
-        <div>
-            <label for="file">File:</label>
-            <input type="file" id="file" name="file">
-        </div>
-        <div>
-            <label for="fileName">File Name:</label>
-            <input type="text" id="fileName" name="fileName">
-        </div>
-        <div>
-            <label for="folder">Folder:</label>
-            <select id="folder" name="folderId">
-                <option value="" disabled selected>Select a folder</option>
-                <% folders.forEach((folder) => { %>
-                    <option value="<%= folder.id %>"><%= folder.name %></option>
-                <% }) %>
-            </select>
-        </div>
-        <button type="submit">Submit</button>
-    </form>  
+    <header>
+        <%- include("partials/navbar") %>
+    </header>
+
+    <main>
+        <section class="introduction">
+            <h1 class="intro-heading">Upload Your Files</h1>
+            <div class="secondary-text">Click below to upload your files securely and keep them organized in your folders.</div>
+        </section>
+
+        <section>
+
+            <div class="form-card">
+                <h2>Upload File</h2>
+
+                <%- include("partials/errors") %>
+
+                <form method="post" action="/uploadFile" enctype="multipart/form-data">
+                    <div class="input-form">
+                        <label for="file">File:</label>
+                        <input class="file-input" type="file" id="file" name="file">
+                    </div>
+                    <div class="input-form">
+                        <label for="fileName">File Name:</label>
+                        <input type="text" id="fileName" name="fileName">
+                    </div>
+                    <div class="input-form">
+                        <label for="folder">Folder:</label>
+                        <select id="folder" name="folderId">
+                            <option value="" disabled selected>Select a folder</option>
+                            <% folders.forEach((folder) => { %>
+                                <option value="<%= folder.id %>"><%= folder.name %></option>
+                            <% }) %>
+                        </select>
+                    </div>
+                    <button type="submit">Submit</button>
+                </form> 
+            </div>
+            
+        </section>
+    </main>
+    
 </body>
 </html>

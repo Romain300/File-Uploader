@@ -3,16 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/styles.css" rel="stylesheet">
     <title>Create Folder</title>
 </head>
 <body>
-    <%- include("partials/errors") %>
-    <form method="post" action="/createFolder">
-        <div>
-            <label for="name">Folder name:</label>
-            <input type="text" id="name" name="name">
-        </div>
-        <button type="submit">Submit</button>
-    </form>  
+    <header>
+        <%- include("partials/navbar") %>
+    </header>
+
+    <main>
+        <section class="introduction">
+            <h1 class="intro-heading">Create a New Folder</h1>
+            <div class="secondary-text">Give your folder a name and start managing your uploads efficiently.</div>
+        </section>
+
+        <section>
+
+            <div class="form-card">
+                <h2>Create Folder</h2>
+
+                <%- include("partials/errors") %>
+
+                <form method="post" action="/createFolder">
+                    <div class="input-form">
+                        <label for="name">Folder name:</label>
+                        <input type="text" id="name" name="name">
+                    </div>
+                    <button type="submit">Submit</button>
+                </form>  
+            </div>
+            
+        </section>
+    </main>
+    
 </body>
 </html>

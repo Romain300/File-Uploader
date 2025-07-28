@@ -2,7 +2,7 @@ const { body, validationResult } = require("express-validator");
 const db = require("../db/queries");
 
 function displayCreateFolderPage(req, res) {
-    return res.render("createFolder")
+    return res.render("createFolder", { user: req.user })
 };
 
 const validateUser = [
@@ -18,7 +18,10 @@ const createFolder = [
     async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(400).render("createFolder", { errors: errors.array()})
+            return res.status(400).render("createFolder", { 
+                errors: errors.array(),
+                user: req.user
+            })
         }
         try {
             console.log("creating new folder...")
