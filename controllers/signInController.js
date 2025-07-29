@@ -47,6 +47,12 @@ const createUser = [
         try {
             console.log("creating new user");
             const { name, email } = req.body;
+            const userExist = await db.getUserByEmail(email);
+            if (userExist) {
+                return res.status(400).render("signIn", {
+                    errors: [{msg: "Email already used"}]
+                });
+            }
             const hashedPassword = await bcrypt.hash(req.body.password, 10);
             await db.createUser(name, email, hashedPassword);
             const user = await db.getUserByEmail(email);
@@ -55,7 +61,7 @@ const createUser = [
             return res.status(201).redirect("/");
         } catch(error) {
             console.error(error);
-            return res.status(500).send("soemthing went wrong during user creation");
+            return res.status(500).send("something went wrong during user creation");
         }
 
     }

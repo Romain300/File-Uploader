@@ -21,10 +21,24 @@ const logInUser = [
             return res.status(400).render("index", { errors: errors.array() });
         }
 
-        return passport.authenticate("local", {
-            successRedirect: "/",
-            failureRedirect: "/"
-        })(req, res, next)
+        // return passport.authenticate("local", {
+        //     successRedirect: "/",
+        //     failureRedirect: "/"
+        // })(req, res, next)
+
+        passport.authenticate("local", (error, user, info) => {
+            if (error) return next(error);
+            if (!user) {
+                return res.status(400).render("index", { 
+                    errors: [{ msg: info.message}],
+                });
+            }
+
+            req.logIn(user, (err) => {
+                if (err) return next(err);
+                return res.redirect("/")
+            });
+        })(req,res,next);
     }
 ];
 

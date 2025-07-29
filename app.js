@@ -61,6 +61,9 @@ app.use("/createFolder", createFolderRoute);
 app.use("/folder", folderUserRoute);
 app.use("/deleteFolder", deleteFolderRouter);
 app.use("/deleteFile", deleteFileRouter);
+app.use((req, res) => {
+  res.status(404).render("404notFound", { user: req.user });
+});
 
 passport.use(
     new LocalStrategy(
@@ -106,3 +109,4 @@ app.listen(PORT, () => {
     console.log(`Listening on PORT ${PORT}`);
 });
 
+//manage file name and folder name

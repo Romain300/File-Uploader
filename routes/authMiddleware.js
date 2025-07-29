@@ -3,7 +3,7 @@ const isAuth = (req, res, next) => {
         return next();
     }
     else {
-        return res.status(403).send("You are not authorised to access this ressources")
+        return res.status(403).render("notAuthorised");
     }
 };
 
