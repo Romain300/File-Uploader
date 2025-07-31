@@ -109,4 +109,6 @@ app.listen(PORT, () => {
     console.log(`Listening on PORT ${PORT}`);
 });
 
-//manage file name and folder name
+// Add a share folder functionality. 
+// When a user wants to share a folder (and all of its contents), 
+// they should have a form to specify the duration i.e. 1d, 10d etc. 

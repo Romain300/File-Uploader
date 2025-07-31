@@ -32,8 +32,16 @@ const updateFileName = [
 
         try{
             const { name } = req.body;
-            await db.updateFileName(fileId, name)
             const folder = await db.folderDetails(folderName);
+            const fileExist = await db.checkFileName(name, parseInt(folder.id), req.user.id);
+            if (fileExist) {
+                return res.status(400).render("folderUser", {
+                    folder: folder,
+                    user: req.user,
+                    errors: [{ msg: "File's name already used"}]
+                })
+            }
+            await db.updateFileName(fileId, name)
             return res.status(200).redirect(`/folder/${folderName}`)
 
         }catch(error) {

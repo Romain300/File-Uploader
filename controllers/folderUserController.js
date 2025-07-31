@@ -1,7 +1,7 @@
 const db = require("../db/queries");
 
 async function displayFolderUser(req, res) {
-    const folder = await db.folderDetails(req.params.folderName);
+    const folder = await db.folderDetails(req.params.folderName, req.user.id);
 
     if (!folder) {
         return res.status(404).render("404notFound", { user: req.user });

@@ -29,7 +29,7 @@ const updateFolder = [
         }
         try {
             const folderId = parseInt(req.body.folderId);
-            const folderExist = await db.checkFolderName(name);
+            const folderExist = await db.checkFolderName(name, req.user.id);
             if (folderExist) {
                 try {
                     const folder = await db.folderDetails(currentName);

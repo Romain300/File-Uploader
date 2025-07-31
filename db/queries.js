@@ -77,11 +77,12 @@ async function findUserFolders(userId) {
     }
 };
 
-async function folderDetails(folderName) {
+async function folderDetails(folderName, authorId) {
     try {
-        const folder = await prisma.folder.findUnique({
+        const folder = await prisma.folder.findFirst({
             where: {
-                name: folderName
+                name: folderName, 
+                authorId: authorId
             },
             include: {
                 author: {
@@ -102,11 +103,28 @@ async function folderDetails(folderName) {
     }
 };
 
-async function checkFolderName(name) {
+async function checkFolderName(folderName, userId) {
     try {
-        const folderExist = await prisma.folder.findUnique({
+        const folderExist = await prisma.folder.findFirst({
             where: {
-                name: name
+                name: folderName,
+                authorId: userId
+            }
+        });
+    
+        return folderExist;
+    } catch(error) {
+        throw error;
+    }
+};
+
+async function checkFileName(fileName, folderId, userId) {
+    try {
+        const folderExist = await prisma.file.findFirst({
+            where: {
+                name: fileName,
+                folderId: folderId,
+                authorId: userId
             }
         });
     
@@ -272,10 +290,6 @@ async function folderDetailsById(folderId) {
     }
 };
 
-
-
-
-
 module.exports = {
     createUser,
     getUserByEmail,
@@ -289,5 +303,6 @@ module.exports = {
     uploadFile,
     deleteFile,
     updateFileName,
-    folderDetailsById
+    folderDetailsById,
+    checkFileName
 };

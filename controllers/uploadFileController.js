@@ -50,11 +50,18 @@ const uploadFile = [
             });
         }
         const file = req.file;
-        console.log(req.file);
         const { fileName, folderId } = req.body;
         const authorId = req.user.id;
-        console.log(authorId)
         try {
+            const fileExist = await db.checkFileName(fileName, parseInt(folderId), req.user.id);
+            if (fileExist) {
+                const folders = await db.findUserFolders(req.user.id);
+                return res.status(400).render("uploadFile", {
+                    folders: folders,
+                    user: req.user,
+                    errors: [{ msg: "File's name already used"}]
+                })
+            }
             await db.uploadFile(file, fileName, parseInt(folderId), authorId);
             return res.status(200).redirect("/");
 
