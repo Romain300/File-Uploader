@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link href="/styles.css" rel="stylesheet">
+     <script src="/script.js" defer></script>
+    <title>Shared folder: <%= folder.name %></title>
+</head>
+<body>
+    <header>
+        <%- include("partials/navbar") %>
+    </header>
+
+    <main>
+        <section class="introduction">
+            <h1 class="intro-heading">Folder: <%= folder.name %></h1>
+            <div class="secondary-text">Here are the files stored in "<%= folder.name %>", made by <%= folder.author.name %></div>
+        </section>
+
+        <section class="folder-section">
+
+            <div>
+                <h4 class="section-title"><%= folder.files.length %> File(s)</h4>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Date of upload</th>
+                            <th scrope="col">Options</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                        <% folder.files.forEach((file) => { %>
+                            <tr>
+                                <td><%= file.name %></td>
+                                <td><%= file.uploadAt.toDateString() %></td>
+                                <td>
+                                    <div>
+                                        <a href="<%= file.url %>"><img class="option-image" src="/images/download.png" alt="download"></a>
+                                    </div>
+                                </td>
+
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+
+        </section>
+    </main>
+    
+</body>
+</html>

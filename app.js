@@ -13,6 +13,7 @@ const createFolderRoute = require("./routes/createFolderRoute");
 const folderUserRoute = require("./routes/folderUserRoute");
 const deleteFolderRouter = require("./routes/deleteFolderRoute")
 const deleteFileRouter = require("./routes/deleteFileRoute");
+const sharedFolderRouter = require("./routes/sharedFolderRouter");
 const { getUserByEmail, getUserById } = require("./db/queries");
 const cloudinary  = require("cloudinary").v2;
 require("dotenv").config();
@@ -61,6 +62,7 @@ app.use("/createFolder", createFolderRoute);
 app.use("/folder", folderUserRoute);
 app.use("/deleteFolder", deleteFolderRouter);
 app.use("/deleteFile", deleteFileRouter);
+app.use("/share", sharedFolderRouter);
 app.use((req, res) => {
   res.status(404).render("404notFound", { user: req.user });
 });

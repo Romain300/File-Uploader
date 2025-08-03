@@ -17,11 +17,12 @@ model User {
 }
 
 model Folder {
-  id        Int     @id @default(autoincrement())
-  name      String  
-  author    User    @relation(fields: [authorId], references: [id])
-  authorId  Int  
-  files     File[]
+  id          Int     @id @default(autoincrement())
+  name        String  
+  author      User    @relation(fields: [authorId], references: [id])
+  authorId    Int  
+  files       File[]
+  shareLinks  shareLink[]
 }
 
 model File {
@@ -35,4 +36,14 @@ model File {
   url       String
   public_id String
   resourceType String
+}
+
+model shareLink {
+  id        Int       @id @default(autoincrement())
+  token     String    @unique
+  folder    Folder    @relation(fields: [folderId], references: [id])
+  folderId  Int
+  createAt  DateTime  @default(now())
+  expiresAt DateTime 
+  revoked   Boolean   @default(false)
 }
