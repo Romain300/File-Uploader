@@ -290,6 +290,77 @@ async function folderDetailsById(folderId) {
     }
 };
 
+async function createShareLink(folderId, duration) {
+    if (!Number.isInteger(duration) || duration <= 0) {
+        throw new Error("Duration must be a positive integer");
+    }
+    const { customAlphabet } = await import("nanoid");
+    const nanoid = customAlphabet("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz", 22);
+    const token = nanoid();
+    
+    const now = new Date();
+    const expiresAt = new Date(now);
+    expiresAt.setDate(now.getDate() + duration);
+    try {
+        const share = await prisma.shareLink.create({
+            data: {
+                folderId: folderId,
+                token: token,
+                expiresAt: expiresAt,
+            }
+
+        })
+        return share;
+
+    } catch(error) {
+        throw error;
+    }
+};
+
+async function getShareLink(token) {
+    try {
+        const shareLink = await prisma.shareLink.findUnique({
+            where: {
+                token: token
+            },
+            include: {
+                folder: {
+                    include: {
+                        author: true,
+                        files: true
+                    }
+                }
+            }
+        });
+
+        return shareLink;
+    } catch(error) {
+        console.error(error);
+        throw error;
+    }
+};
+
+async function shareLinkIsRevoked(shareLink) {
+    if (shareLink.revoked) return true;
+
+    const now = new Date();
+
+    if (now > shareLink.expiresAt) {
+        await prisma.shareLink.update({
+            where: {
+                id: shareLink.id
+            },
+            data: {
+                revoked: true,
+            }
+        });
+
+        return true
+    }
+
+    return false;
+};
+
 module.exports = {
     createUser,
     getUserByEmail,
@@ -304,5 +375,8 @@ module.exports = {
     deleteFile,
     updateFileName,
     folderDetailsById,
-    checkFileName
+    checkFileName,
+    createShareLink,
+    getShareLink,
+    shareLinkIsRevoked
 };

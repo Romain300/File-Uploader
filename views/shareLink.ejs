@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/styles.css" rel="stylesheet">
+    <title>Share Link</title>
+</head>
+<body>
+    <header>
+        <%- include("partials/navbar") %>
+    </header>
+
+    <main>
+        <section class="introduction">
+            <h1 class="intro-heading">Your Shareable Link</h1>
+            <div class="secondary-text">Copy and send this link to give others access to your folder:</div>
+        </section>
+
+        <section class="share-link-display">
+            <div class="form-card">
+                <input type="text" id="shareLinkInput" readonly value="<%= link %>">
+                <button onclick="copyToClipboard()">Copy to Clipboard</button>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        function copyToClipboard() {
+            const input = document.getElementById("shareLinkInput");
+            input.select();
+            input.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(input.value);
+            alert("Link copied!");
+        }
+    </script>
+</body>
+</html>

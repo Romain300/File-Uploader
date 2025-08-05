@@ -104,6 +104,28 @@
                     </div>
                 </div>
 
+
+                <div class="form-card">
+                    <h2>Share Folder</h2>
+
+                    <%- include("partials/errors") %>
+                    <form method="post" action="/share/<%= folder.id%>/link">
+                        <div class="input-form">
+                            <label for="duration">Duration (in days):</label>
+                            <input type="number" name="duration" id="duration" min="0">
+                        </div>
+                        <button type="submit">Submit</button>
+                    </form>
+               
+                    <div class="info-form">
+                        <p class="secondary-text">
+                            You can create a public share link to this folder for a limited time.<br>
+                            The link will automatically expire after the number of days you choose.<br>
+                            You can revoke the link at any time from your dashboard.
+                        </p>
+                    </div>
+                </div>
+
             </div>
 
         </section>

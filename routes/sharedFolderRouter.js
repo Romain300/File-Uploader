@@ -1,7 +1,9 @@
 const { Router } = require("express");
-const { sharedFolderDisplay } = require('../controllers/sharedFolderController');
+const { sharedFolderDisplay, createShareLink} = require('../controllers/sharedFolderController');
+const { isAuth } = require("./authMiddleware");
 
 const sharedFolderRouter = Router();
-sharedFolderRouter.get("/:folderId", sharedFolderDisplay);
+sharedFolderRouter.get("/:token", sharedFolderDisplay);
+sharedFolderRouter.post("/:folderId/link", isAuth, createShareLink);
 
 module.exports = sharedFolderRouter;
