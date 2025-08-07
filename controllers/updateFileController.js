@@ -46,7 +46,10 @@ const updateFileName = [
 
         }catch(error) {
             console.error(error);
-            return res.status(500).send("something went wrong during update");
+            return res.status(500).render("errorPage", {
+                user: req.user,
+                messageError: "something went wrong during update",
+            });
         }
 
     }

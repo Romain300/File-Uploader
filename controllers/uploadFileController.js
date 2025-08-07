@@ -67,7 +67,10 @@ const uploadFile = [
 
         }catch(error) {
             console.log(error);
-            res.status(500).send("something went wrong during file upload")
+            return res.status(500).render("errorPage", {
+                user: req.user,
+                messageError: "something went wrong during file upload",
+            });
         }
         
     }

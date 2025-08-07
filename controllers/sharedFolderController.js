@@ -51,7 +51,11 @@ const createShareLink = [
                     user: req.user
                 });
             } catch(error) {
-                return res.status(500).send("something went wrong during update");
+                
+                return res.status(500).render("errorPage", {
+                    user: req.user,
+                    messageError: "something went wrong during update",
+                });
             }
         }
 
@@ -68,7 +72,11 @@ const createShareLink = [
 
         } catch(error) {
             console.error(error);
-            return res.status(500).send("something went wrong during link creation");
+            
+            return res.status(500).render("errorPage", {
+                user: req.user,
+                messageError: "something went wrong during link creation",
+            });
         }
     }
 ]

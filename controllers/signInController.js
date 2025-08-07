@@ -61,7 +61,11 @@ const createUser = [
             return res.status(201).redirect("/");
         } catch(error) {
             console.error(error);
-            return res.status(500).send("something went wrong during user creation");
+
+            return res.status(500).render("errorPage", {
+                user: req.user,
+                messageError: "something went wrong during user creation",
+            });
         }
 
     }

@@ -39,7 +39,10 @@ const createFolder = [
             res.status(201).redirect("/");
         } catch(error) {
             console.error(error);
-            res.status(500).send("something went wrong during folder creation")
+            return res.status(500).render("errorPage", {
+                user: req.user,
+                messageError: "something went wrong during folder creation",
+            });
         };
     }
 ];

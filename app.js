@@ -111,4 +111,3 @@ app.listen(PORT, () => {
     console.log(`Listening on PORT ${PORT}`);
 });
 
-//Change error render with a proper view

@@ -8,7 +8,11 @@ async function deleteFolder(req, res) {
         return res.status(201).redirect("/");
     }catch(error) {
         console.error(error);
-        res.send("soemthing went wrong during the deletion")
+        
+        return res.status(500).render("errorPage", {
+            user: req.user,
+            messageError: "something went wrong during the deletion",
+        });
     }
 };
 
