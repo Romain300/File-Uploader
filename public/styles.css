@@ -263,3 +263,31 @@ dialog {
     border: none;
     padding: 0;
 }
+
+@media (max-width: 700px) {
+    nav {
+        flex-direction: column;
+    }
+
+    .navigation {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .image-login-form {
+        flex-direction: column;
+    }
+
+    .intro-heading {
+        text-align: center;
+    }
+
+    .heading {
+        text-align: center;
+    }
+
+    .folders-user {
+        flex-direction: column;
+    }
+
+}
