@@ -1,0 +1,8 @@
+{
+  "secrets": ["CLOUD_NAME", "API_KEY", "API_SECRET", "DATABASE_URL", "SESSION_SECRET"],
+  "steps": {
+    "build": {
+      "secrets": ["CLOUD_NAME", "API_KEY", "API_SECRET", "DATABASE_URL", "SESSION_SECRET"]
+    }
+  }
+}
